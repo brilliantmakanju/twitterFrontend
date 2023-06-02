@@ -53,7 +53,7 @@ const Register = () => {
 
   const register = async (e) => {
     e.preventDefault();
-    let res = await fetch("http://127.0.0.1:8000/auth/register", {
+    let res = await fetch("https://twitterapi-production-91d6.up.railway.app/auth/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
