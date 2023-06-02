@@ -7,6 +7,7 @@ import { FaArrowLeft, FaCog } from "react-icons/fa";
 import Link from "next/link";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
+import { useSession } from "next-auth/react";
 
 // export const metadata = {
 //   title: "Explore / Twitter",
@@ -15,6 +16,7 @@ import { useState } from "react";
 
 export default function RootLayout({ children }) {
   const [base, setBase] = useState(false);
+  
 
   const router = usePathname();
   const route = useRouter();
@@ -40,11 +42,15 @@ export default function RootLayout({ children }) {
                         {router === "/" ? (
                           <h2 className="font-[500] text-[20px] " >Explore</h2>
                         ) : (
-                          <h4 className="font-[500] text-[20px] " >
+                          <h4 className="font-[500] text-[20px] flex gap-5 items-center justify-start " >
                             <FaArrowLeft
                               onClick={() => route.back()}
                               className="cursor-pointer"
                             />
+                             {/* {
+                              router === `profile/${session?.user.username}`
+                              ?(<h3>Profile</h3>):(<h3>Tweets</h3>)
+                             } */}
                           </h4>
                         )}
                     </div>
