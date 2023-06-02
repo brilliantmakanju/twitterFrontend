@@ -69,7 +69,7 @@ const Admin = () => {
         // console.log(session);
         async function followCounts() {
           const res = await fetch(
-            `http://127.0.0.1:8000/auth/followcount/${uid}`,
+            `https://twitterapi-production-91d6.up.railway.app/auth/followcount/${uid}`,
             {
               method: "GET",
               headers: {
