@@ -27,7 +27,7 @@ const Admin = () => {
   const uid = params.userId;
 
   async function followCounts() {
-    const res = await fetch(`http://127.0.0.1:8000/auth/followcount/${uid}`, {
+    const res = await fetch(`https://twitterapi-production-91d6.up.railway.app/auth/followcount/${uid}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -47,7 +47,7 @@ const Admin = () => {
   }
 
   async function followBtn() {
-    const res = await fetch(`http://127.0.0.1:8000/auth/follow/${uid}`, {
+    const res = await fetch(`https://twitterapi-production-91d6.up.railway.app/auth/follow/${uid}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -69,7 +69,7 @@ const Admin = () => {
         // console.log(session);
         async function followCounts() {
           const res = await fetch(
-            `http://127.0.0.1:8000/auth/followcount/${uid}`,
+            `https://twitterapi-production-91d6.up.railway.app/auth/followcount/${uid}`,
             {
               method: "GET",
               headers: {
@@ -92,7 +92,7 @@ const Admin = () => {
       } else {
         async function followCounts() {
           const res = await fetch(
-            `http://127.0.0.1:8000/auth/followcount/${uid}`,
+            `https://twitterapi-production-91d6.up.railway.app/auth/followcount/${uid}`,
             {
               method: "GET",
               headers: {
@@ -119,7 +119,7 @@ const Admin = () => {
 
   const userInfo = async () => {
     try {
-      const res = await fetch(`http://127.0.0.1:8000/auth/profile/${uid}`, {
+      const res = await fetch(`https://twitterapi-production-91d6.up.railway.app/auth/profile/${uid}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

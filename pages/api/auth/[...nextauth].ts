@@ -12,7 +12,7 @@ export default NextAuth({
 
             async authorize(credentials, req) {
 
-                const res = await fetch("http://127.0.0.1:8000/auth/login", {
+                const res = await fetch("https://twitterapi-production-91d6.up.railway.app/auth/login", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
