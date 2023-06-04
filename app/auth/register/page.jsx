@@ -1,42 +1,9 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import { NextSeo } from "next-seo";
 import { useRouter } from "next/navigation";
 import { signIn, useSession } from "next-auth/react";
+import React, { useEffect, useRef, useState } from "react";
 import { FaEnvelope, FaLock, FaUser } from "react-icons/fa";
-
-// export async function getServerSideProps({ req }) {
-//   const session = await getSession({ req });
-
-//   if(session){
-//     return {
-//       redirect: {
-//         destination: "/"
-//       }
-//     }
-//   }
-
-//   return {
-//     props: {
-//       session,
-//     },
-//   };
-// }
-
-// export async function getServerSideProps() {
-//   // Fetch data from external API
-//   const { data: session } = useSession();
-
-//   if (session) {
-//     return {
-//       redirect: {
-//         destination: "/",
-//       },
-//     };
-//   }
-
-//   // Pass data to the page via props
-//   return { props: { session } };
-// }
 
 const Register = () => {
   const email = useRef("");
@@ -54,17 +21,20 @@ const Register = () => {
 
   const register = async (e) => {
     e.preventDefault();
-    let res = await fetch("https://twitterapi-production-91d6.up.railway.app/auth/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        username: username.current,
-        email: email.current,
-        password: password.current,
-      }),
-    });
+    let res = await fetch(
+      "https://twitterapi-production-91d6.up.railway.app/auth/register",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: username.current,
+          email: email.current,
+          password: password.current,
+        }),
+      }
+    );
     let data = await res.json();
     if (res.status === 201) {
       router.push("auth/signin");
@@ -80,6 +50,7 @@ const Register = () => {
 
   return (
     <>
+      <NextSeo title="Explore" description="Welcome " />
       <main className="flex flex-col justify-start items-start px-5 pt-[8rem] ">
         <h3 className="text-[43px] leading-[3rem] font-mono font-bold md:w-[80%] md:leading-[3.5rem] ">
           Create your Account
@@ -97,7 +68,7 @@ const Register = () => {
               required
             />
             <FaUser className="absolute top-[3.5rem] left-[14px] text-[#AAB8C2]" />
-            {error ? <h3 className="pl-3 pt-3 ">{error}</h3> : <></>}
+            {error ? <h3 className="pl-3 flex justify-start items-start pt-3 ">{error}</h3> : <></>}
           </div>
           <div className="relative w-full">
             <input
