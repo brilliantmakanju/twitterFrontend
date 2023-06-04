@@ -2,6 +2,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { signIn, useSession } from "next-auth/react";
+import { FaEnvelope, FaLock, FaUser } from "react-icons/fa";
 
 // export async function getServerSideProps({ req }) {
 //   const session = await getSession({ req });
@@ -66,13 +67,7 @@ const Register = () => {
     });
     let data = await res.json();
     if (res.status === 201) {
-      const result = await signIn("credentials", {
-        username: email.current,
-        password: password.current,
-        redirect: false,
-        callbackUrl: "/",
-      });
-      // router.push("auth/signin");
+      router.push("auth/signin");
     } else {
       if (data?.username) {
         setError(data?.username);
@@ -85,42 +80,56 @@ const Register = () => {
 
   return (
     <>
-      <form
-        onSubmit={register}
-        className="flex  flex-col justify-center items-start py-10 px-10 "
-      >
-        <input
-          className="w-full px-5 h-10 mt-10 bg-black text-white "
-          type={"text"}
-          onChange={(e) => (username.current = e.target.value)}
-          placeholder="Username"
-          required
-        />
-        {error ? <h3 className="pl-3 pt-3 ">{error}</h3> : <></>}
-        <input
-          className="w-full px-5 h-10 mt-10 bg-black text-white "
-          type={"email"}
-          onChange={(e) => (email.current = e.target.value)}
-          placeholder="Email"
-          required
-        />
-        {emailerror ? <h3 className="pl-3 pt-3 ">{emailerror}</h3> : <></>}
-        <input
-          className="w-full px-5 h-10 mt-10 bg-black text-white "
-          type={"password"}
-          onChange={(e) => (password.current = e.target.value)}
-          placeholder="Password"
-          minLength="8"
-          maxLength="64"
-          required
-        />
-        <button
-          className="w-[50%] mx-auto bg-black text-white mt-10 h-10 "
-          type="submit"
+      <main className="flex flex-col justify-start items-start px-5 pt-[8rem] ">
+        <h3 className="text-[43px] leading-[3rem] font-mono font-bold md:w-[80%] md:leading-[3.5rem] ">
+          Create your Account
+        </h3>
+        <form
+          onSubmit={register}
+          className="flex w-full pr-3 md:pr-5 pl-3 flex-col justify-start items-center "
         >
-          Register
-        </button>
-      </form>
+          <div className="relative w-full">
+            <input
+              className="w-full px-5 h-[3rem] pl-10 rounded-md mt-10 bg-[#F5F8FA]  outline-none border-none"
+              type={"text"}
+              onChange={(e) => (username.current = e.target.value)}
+              placeholder="Username"
+              required
+            />
+            <FaUser className="absolute top-[3.5rem] left-[14px] text-[#AAB8C2]" />
+            {error ? <h3 className="pl-3 pt-3 ">{error}</h3> : <></>}
+          </div>
+          <div className="relative w-full">
+            <input
+              className="w-full px-5 h-[3rem] pl-10 rounded-md mt-10 bg-[#F5F8FA]  outline-none border-none "
+              type={"email"}
+              onChange={(e) => (email.current = e.target.value)}
+              placeholder="Email"
+              required
+            />
+            <FaEnvelope className="absolute top-[3.5rem] left-[14px] text-[#AAB8C2]" />
+            {emailerror ? <h3 className="pl-3 pt-3 ">{emailerror}</h3> : <></>}
+          </div>
+          <div className="relative w-full">
+            <input
+              className="w-full px-5 h-[3rem] pl-10 rounded-md mt-10 bg-[#F5F8FA]  outline-none border-none "
+              type={"password"}
+              onChange={(e) => (password.current = e.target.value)}
+              placeholder="Password"
+              minLength="8"
+              maxLength="64"
+              required
+            />
+            <FaLock className="absolute top-[3.5rem] left-[14px] text-[#AAB8C2]" />
+          </div>
+          <button
+            className="w-[80%] text-[white] font-bold transition duration-300 ease-in-out hover:bg-opacity-60 hover:text-[#657786] rounded-full bg-[#1DA1F2]  mt-10 h-[3rem] "
+            type="submit"
+          >
+            Register
+          </button>
+        </form>
+      </main>
     </>
   );
 };

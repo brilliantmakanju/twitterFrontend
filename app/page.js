@@ -15,7 +15,7 @@ export default function Home() {
   const { data: session } = useSession();
 
   return (
-    <main className="grid grid-cols-1 gap-5 w-full  h-screen overflow-hidden overflow-y-scroll  justify-start items-start pt-20 ">
+    <main className="grid grid-cols-1 gap-5 w-full  h-screen overflow-hidden overflow-y-scroll pb-12 md:pb-6 lg:pb-4 justify-start items-start ">
       <Tweets />
     </main>
   );

@@ -145,7 +145,7 @@ const Admin = () => {
 
   return (
     <main
-      className={`pt-[4rem]  "block h-screen overflow-hidden overflow-y-scroll w-full "
+      className={` "block h-screen overflow-hidden overflow-y-scroll w-full "
       `}
     >
       {errors ? (
@@ -161,7 +161,7 @@ const Admin = () => {
       ) : (
         <>
           <div className="w-full  ">
-            <div className="relative h-[160px] w-[100%] md:h-[200px] lg:h-[220px]">
+            <div className="relative h-[140px] w-[100%] md:h-[200px] lg:h-[200px]">
               <Image
                 src="/tweet.webp"
                 fill
@@ -169,7 +169,7 @@ const Admin = () => {
                 alt={uid}
               />
             </div>
-            <div className="relative h-[5.5em] w-[5.5em] overflow-hidden rounded-full p-1 mt-[-10.5%]  border-2 border-[#c9c5c5c0] ml-[20px]  lg:mb-[10px] lg:mt-[-8.5%] md:mt-[-6.5%] lg:ml-[25px] lg:h-[7em] lg:w-[7em] ">
+            <div className="relative h-[6em] w-[6em] overflow-hidden rounded-full p-1 mt-[-10.5%]  border-2 border-[#c9c5c5c0] ml-[20px]  lg:mb-[10px] lg:mt-[-12.5%] md:mt-[-6.5%] lg:ml-[25px] lg:h-[7em] lg:w-[7em] ">
               <Image
                 src="/tweet.webp"
                 fill
@@ -180,7 +180,7 @@ const Admin = () => {
           </div>
           {session?.user.data.username === uid ? (
             <div className="flex justify-end pr-[15px] items-center gap-3 w-full ">
-              <button className="   mt-[-5%] p-2 px-5 font-bold rounded-full  flex justify-end items-end bg-[#000000ce]  text-white">
+              <button className="   mt-[-10.5%] p-2 px-5 font-bold rounded-full  flex justify-end items-end bg-[#000000ce] py-[0.5rem] text-white">
                 Edit
               </button>
             </div>
@@ -189,7 +189,7 @@ const Admin = () => {
               {status === "unauthenticated" ? (
                 <button
                   onClick={() => signIn()}
-                  className=" mt-[-5%] ml-[75%] lg:ml-[85%] px-5 right-7 py-[0.27rem] font-bold rounded-full  flex justify-end items-end bg-[#000000e5]  text-white"
+                  className=" mt-[-9.5%] ml-[75%] lg:ml-[85%] px-5 right-7 py-[0.4rem] font-bold rounded-full  flex justify-end items-end bg-[#000000e5]  text-white"
                 >
                   Follow
                 </button>
@@ -198,14 +198,14 @@ const Admin = () => {
                   {follow ? (
                     <button
                       onClick={() => followBtn()}
-                      className=" mt-[-5%] ml-[72%] lg:ml-[85%] px-5 right-7 py-[0.27rem] font-bold rounded-full  flex justify-end items-end bg-[#000000e5]  text-white"
+                      className=" mt-[-9.5%] ml-[72%] lg:ml-[85%] px-5 right-7 py-[0.4rem] font-bold rounded-full md:mt[1%]  flex justify-end items-end bg-[#000000e5]  text-white"
                     >
                       Unfollow
                     </button>
                   ) : (
                     <button
                       onClick={followBtn}
-                      className=" mt-[-5%] ml-[75%] lg:ml-[85%] px-5 right-7 py-[0.27rem] font-bold rounded-full  flex justify-end items-end bg-[#000000e5]  text-white"
+                      className=" mt-[-9.5%] ml-[70%] lg:ml-[45%] px-5 right-7 py-[0.4rem] font-bold rounded-full md:mt-[-5%] lg:mt-[-10%] flex justify-end items-end bg-[#000000e5]  text-white"
                     >
                       Follow
                     </button>
@@ -215,12 +215,12 @@ const Admin = () => {
             </>
           )}
 
-          <div className="h-auto  w-full  pl-7 flex flex-col mt-4 lg:mt-1 lg:pl-10 justify-start items-start gap-1 ">
-            <h3 className="capitalize font-bold text-[22px] tracking-tighter ">
+          <div className="h-auto  w-full  pl-7 flex flex-col mt-5 lg:mt-1 lg:pl-10 justify-start items-start gap-1 ">
+            <h3 className="capitalize font-bold text-[20px] tracking-tighter ">
               {uid}
             </h3>
-            <span className="text-[gray] mt-[-12px] ">@{uid}</span>
-            <div className="flex flex-col gap-1 mt-3 w-full text-[16px] tracking-tighter font-normal font-serif ">
+            <span className="text-[gray] mt-[-10px] ">@{uid}</span>
+            <div className="flex flex-col gap-1 mt-3 w-full tracking-wide text-[15.5px] leading-[1.2rem]  break-word font-serif font-light ">
               {dataU?.data.bio}
               <div className="flex justify-start items-center gap-5 mt-3 ">
                 <Link
