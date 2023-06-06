@@ -9,12 +9,15 @@ import {
   FaSignInAlt,
   FaRegUserCircle,
   FaFeatherAlt,
+  FaHashtag,
+  FaSign,
+  FaHome,
 } from "react-icons/fa";
 import Link from "next/link";
 import SideIcon from "./SideIcon";
 import { MoonLoader } from "react-spinners";
 import { useRouter } from "next/navigation";
-import { BiLogOut, BiMessageDetail } from "react-icons/bi";
+import { BiHome, BiHomeAlt, BiHomeAlt2, BiLogOut, BiMessageDetail } from "react-icons/bi";
 import { signIn, signOut, useSession } from "next-auth/react";
 
 const Sidebar = () => {
@@ -22,7 +25,7 @@ const Sidebar = () => {
   const [isloading, setIsLoading] = useState(true);
   const { data: session } = useSession();
   async function Logout() {
-    const res = await fetch("http://127.0.0.1:8000/auth/logout", {
+    const res = await fetch("https://twitterapi-production-91d6.up.railway.app/auth/logout", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -57,7 +60,7 @@ const Sidebar = () => {
                     href={"/"}
                     className=" p-3 rounded-full hover:p-3 hover:bg-[#E1E8ED] duration-300 transition-colors ease-in-out  hover:bg-opacity-80 "
                   >
-                    <FaTwitter color={"#1DA1F2"} size={29} />
+                    <FaTwitter color={"#1DA1F2"} size={25} />
                   </Link>
                 </div>
                 <div className="flex w-full gap-3 items-center justify-start">
@@ -65,8 +68,8 @@ const Sidebar = () => {
                     href={"/"}
                     className=" p-3 lg:flex  lg:justify-between lg:items-center lg:w-[60%] rounded-full  hover:p-3 hover:bg-[#E1E8ED] duration-300 transition-colors ease-in-out"
                   >
-                    <FaSearch size={27} color="black" />
-                    <h6 className="hidden lg:block text-black  ">Search</h6>
+                    <BiHomeAlt2 size={25} color="black" />
+                    <h6 className="hidden lg:block text-black  ">Home</h6>
                   </Link>
                 </div>
                 {/* <div className="absolute bottom-1  left-0 flex flex-col text-left justify-start items-center gap-1 w-full lg:gap-4 "> */}
@@ -75,7 +78,7 @@ const Sidebar = () => {
                     href={`profile/${session?.user.data.username}`}
                     className=" p-3 lg:flex  lg:justify-between lg:items-center lg:w-[60%] rounded-full  hover:p-3 hover:bg-[#E1E8ED] duration-300 transition-colors ease-in-out"
                   >
-                    <FaUser size={29} color="black" />
+                    <FaUser size={25} color="black" />
                     <h6
                       onClick={() =>
                         router.push(`profile/${session?.user.data.username}`)
@@ -87,28 +90,29 @@ const Sidebar = () => {
                   </Link>
                 </div>
 
-                <div className="flex w-full gap-3 items-center justify-start">
+                {/* <div className="flex w-full gap-3 items-center justify-start">
                   <Link
                     href={"/"}
                     className=" p-3 lg:flex  lg:justify-between lg:items-center lg:w-[67%] rounded-full  hover:p-3 hover:bg-[#E1E8ED] duration-300 transition-colors ease-in-out"
                   >
                     <BiMessageDetail
-                      size={28}
+                      size={25}
                       color="black"
                       // onClick={signOut}
                       className={"cursor-pointer"}
                     />
                     <h6 className="hidden lg:block text-black  ">Message</h6>
                   </Link>
-                </div>
+                </div> */}
 
                 <div className="flex w-full gap-3 items-center justify-start">
                   <Link
                     href={"/"}
+                    onClick={() => Logout()}
                     className=" p-3 lg:flex  lg:justify-between lg:items-center lg:w-[60%] rounded-full  hover:p-3 hover:bg-[#E1E8ED] duration-300 transition-colors ease-in-out"
                   >
                     <BiLogOut
-                      size={28}
+                      size={25}
                       color="black"
                       onClick={() => Logout()}
                       className={"cursor-pointer"}
@@ -124,7 +128,7 @@ const Sidebar = () => {
 
                 <div className="gap-3 items-center w-full mt-[20px] justify-start lg:block hidden ">
                   <Link
-                    href={"/"}
+                    href={"tweet/createtweet"}
                     className=" p-3 px-20  w-full rounded-full  bg-[#0095ff] duration-300 transition-colors ease-in-out font-bold "
                   >
                     Tweet
@@ -147,40 +151,23 @@ const Sidebar = () => {
               </div>
             ) : (
               // </div>
-              <div className="flex flex-col gap-2 justify-between items-center">
+              <div className="flex flex-col gap-2 justify-between items-center lg:items-start">
                 <div className="flex gap-2 items-center justify-start">
                   <Link
                     href={"/"}
-                    className=" p-3 rounded-full hover:p-3 hover:bg-[#E1E8ED] duration-300 transition-colors ease-in-out"
+                    className=" p-3 rounded-full hover:p-3 hover:bg-[#E1E8ED] duration-300 transition-colors ease-in-out  hover:bg-opacity-80 "
                   >
                     <FaTwitter color={"#1DA1F2"} size={29} />
                   </Link>
-                  <span className="hidden lg:block text-transparent ">
-                    Search
-                  </span>
                 </div>
-                <div className="flex gap-3 items-center justify-start">
+                <div className="flex w-full gap-3 items-center justify-start">
                   <Link
                     href={"/"}
-                    className=" p-3 rounded-full hover:p-3 hover:bg-[#E1E8ED] duration-300 transition-colors ease-in-out"
+                    className=" p-3 lg:flex  lg:justify-between lg:items-center lg:gap-5 lg:w-[100%] rounded-full  hover:p-3 hover:bg-[#E1E8ED] duration-300 transition-colors ease-in-out"
                   >
-                    <FaSearch size={22.5} color="black" />
+                    <FaHome size={27} color="black" />
+                    <h6 className="hidden lg:block text-black  ">Home</h6>
                   </Link>
-                  <span className="hidden lg:block text-black ">Search</span>
-                </div>
-                <div className="flex gap-3 items-center justify-start">
-                  <Link
-                    href={"auth/signin"}
-                    className=" p-3 rounded-full hover:p-3 hover:bg-[#E1E8ED] duration-300 transition-colors ease-in-out"
-                  >
-                    <FaSignInAlt size={22.5} color="black" />
-                  </Link>
-                  <span
-                    className="hidden lg:block text-black cursor-pointer"
-                    onClick={signIn}
-                  >
-                    Log in
-                  </span>
                 </div>
               </div>
             )}
@@ -201,31 +188,31 @@ const Sidebar = () => {
         ) : (
           <>
             {session?.user.data.username ? (
-              <div className="flex gap-2 justify-between w-full items-center ">
-                <div className="flex w-full gap-3 items-center justify-start">
+              <div className="flex gap-2 justify-center w-full items-center ">
+                {/* <div className="absolute bottom-1  left-0 flex flex-col text-left justify-start items-center gap-1 w-full lg:gap-4 "> */}
+                <div className="flex w-full gap-3 items-center justify-center">
                   <Link
-                    href={"/"}
-                    className=" p-3 cursor-pointer rounded-full hover:bg-opacity-50 hover:p-3 hover:bg-[#E1E8ED] duration-300 transition-colors ease-in-out"
+                    href={`/`}
+                    className=" p-3  rounded-full hover:bg-opacity-25 hover:p-3 hover:bg-[#E1E8ED] duration-300 transition-colors ease-in-out"
                   >
-                    <FaSearch size={27} color="white" />
+                    <FaHome size={29} color="white" />
                   </Link>
                 </div>
-                {/* <div className="absolute bottom-1  left-0 flex flex-col text-left justify-start items-center gap-1 w-full lg:gap-4 "> */}
-                <div className="flex w-full gap-3 items-center justify-start">
+                <div className="flex w-full gap-3 items-center justify-center">
                   <Link
                     href={`profile/${session?.user.data.username}`}
-                    className=" p-3  rounded-full  hover:p-3 hover:bg-[#E1E8ED] duration-300 transition-colors ease-in-out"
+                    className=" p-3  rounded-full hover:bg-opacity-25 hover:p-3 hover:bg-[#E1E8ED] duration-300 transition-colors ease-in-out"
                   >
                     <FaUser size={29} color="white" />
                   </Link>
                 </div>
 
-                <div className="flex w-full gap-3 items-center justify-start">
+                <div className="flex w-full gap-3 items-center justify-center">
                   <Link
                     href={"/"}
-                    className=" p-3  rounded-full  hover:p-3 hover:bg-[#E1E8ED] duration-300 transition-colors ease-in-out"
+                    className=" p-3  rounded-full hover:bg-opacity-25  hover:p-3 hover:bg-[#E1E8ED] duration-300 transition-colors ease-in-out"
                   >
-                    <BiMessageDetail
+                    <FaHashtag
                       size={28}
                       color="white"
                       // onClick={signOut}
@@ -234,15 +221,29 @@ const Sidebar = () => {
                   </Link>
                 </div>
 
-                <div className="flex w-full gap-3 items-center justify-start">
+                <div className="flex w-full gap-3 items-center justify-center">
                   <Link
                     href={"/"}
-                    className=" p-3  rounded-full  hover:p-3 hover:bg-[#E1E8ED] duration-300 transition-colors ease-in-out"
+                    onClick={() => Logout()}
+                    className=" p-3  rounded-full  hover:p-3 hover:bg-opacity-25 hover:bg-[#E1E8ED] duration-300 transition-colors ease-in-out"
                   >
                     <BiLogOut
                       size={28}
                       color="white"
                       onClick={() => Logout()}
+                      className={"cursor-pointer"}
+                    />
+                  </Link>
+                </div>
+                <div className="flex w-full gap-3 items-center justify-center">
+                  <Link
+                    href={"tweet/createtweet"}
+                    className=" p-3  rounded-full hover:bg-opacity-25 hover:p-3 hover:bg-[#E1E8ED] duration-300 transition-colors ease-in-out"
+                  >
+                    <FaFeatherAlt
+                      size={28}
+                      color="white"
+                      // onClick={() => Logout()}
                       className={"cursor-pointer"}
                     />
                   </Link>

@@ -1,18 +1,13 @@
-import Head from 'next/head';
- 
-function IndexPage() {
+// import Head from "next/head";
+
+export default function Head() {
   return (
-    <div>
-      <Head>
-        <title>Register / Twitter</title>
-        <meta property="og:title" content="Register / Twitter" key="title" />
-      </Head>
-      <Head>
-        <meta property="og:title" content="Register / Twitter" key="title" />
-      </Head>
-      <p>Hello world!</p>
-    </div>
+    <>
+      <title>Register / Twitter</title>
+      <meta httpEquiv="Content-Type" content="text/html; charset=UTF-8" />
+      <meta property="og:title" content="Register / Twitter" key="title" />
+      <meta property="og:title" content="Register / Twitter" key="title" />
+      <meta content="width=device-width, initial-scale=1" name="viewport" />
+    </>
   );
 }
- 
-export default IndexPage;

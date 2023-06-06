@@ -4,12 +4,15 @@ import { useRouter } from "next/navigation";
 import { signIn, useSession } from "next-auth/react";
 import React, { useEffect, useRef, useState } from "react";
 import { FaEnvelope, FaLock, FaUser } from "react-icons/fa";
+import NavMobile from "../../../components/base/top/Nav";
 
 const Register = () => {
   const email = useRef("");
   const router = useRouter();
   const username = useRef("");
   const password = useRef("");
+  const lastname = useRef("");
+  const firstname = useRef("");
   const [error, setError] = useState();
   const [emailerror, setEmailError] = useState();
 
@@ -21,20 +24,19 @@ const Register = () => {
 
   const register = async (e) => {
     e.preventDefault();
-    let res = await fetch(
-      "https://twitterapi-production-91d6.up.railway.app/auth/register",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username: username.current,
-          email: email.current,
-          password: password.current,
-        }),
-      }
-    );
+    let res = await fetch("https://twitterapi-production-91d6.up.railway.app/auth/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        fname: firstname.current,
+        lname: lastname.current,
+        username: username.current,
+        email: email.current,
+        password: password.current,
+      }),
+    });
     let data = await res.json();
     if (res.status === 201) {
       router.push("auth/signin");
@@ -50,8 +52,9 @@ const Register = () => {
 
   return (
     <>
+      <NavMobile arrow label={"Create your Account"} />
       <NextSeo title="Explore" description="Welcome " />
-      <main className="flex flex-col justify-start items-start px-5 pt-[8rem] ">
+      <main className="flex flex-col justify-start items-start px-5 pt-[5rem] ">
         <h3 className="text-[43px] leading-[3rem] font-mono font-bold md:w-[80%] md:leading-[3.5rem] ">
           Create your Account
         </h3>
@@ -61,14 +64,54 @@ const Register = () => {
         >
           <div className="relative w-full">
             <input
-              className="w-full px-5 h-[3rem] pl-10 rounded-md mt-10 bg-[#F5F8FA]  outline-none border-none"
+              className="w-full capitalize px-5 h-[3rem] pl-10 rounded-md mt-10 bg-[#F5F8FA]  outline-none border-none"
+              type={"text"}
+              onChange={(e) => (firstname.current = e.target.value)}
+              placeholder="Firstname"
+              required
+            />
+            <FaUser className="absolute top-[3.5rem] left-[14px] text-[#AAB8C2]" />
+            {error ? (
+              <h3 className="pl-3 flex capitalize justify-start items-center w-full py-3 font-bold text-[#e21212] ">
+                {error}
+              </h3>
+            ) : (
+              <></>
+            )}
+          </div>
+          <div className="relative w-full">
+            <input
+              className="w-full capitalize px-5 h-[3rem] pl-10 rounded-md mt-10 bg-[#F5F8FA]  outline-none border-none"
+              type={"text"}
+              onChange={(e) => (lastname.current = e.target.value)}
+              placeholder="Lastname"
+              required
+            />
+            <FaUser className="absolute top-[3.5rem] left-[14px] text-[#AAB8C2]" />
+            {error ? (
+              <h3 className="pl-3 flex capitalize justify-start items-center w-full py-3 font-bold text-[#e21212] ">
+                {error}
+              </h3>
+            ) : (
+              <></>
+            )}
+          </div>
+          <div className="relative w-full">
+            <input
+              className="w-full lowercase px-5 h-[3rem] pl-10 rounded-md mt-10 bg-[#F5F8FA]  outline-none border-none"
               type={"text"}
               onChange={(e) => (username.current = e.target.value)}
               placeholder="Username"
               required
             />
             <FaUser className="absolute top-[3.5rem] left-[14px] text-[#AAB8C2]" />
-            {error ? <h3 className="pl-3 flex justify-start items-start pt-3 ">{error}</h3> : <></>}
+            {error ? (
+              <h3 className="pl-3 flex capitalize justify-start items-center w-full py-3 font-bold text-[#e21212] ">
+                {error}
+              </h3>
+            ) : (
+              <></>
+            )}
           </div>
           <div className="relative w-full">
             <input
@@ -79,7 +122,13 @@ const Register = () => {
               required
             />
             <FaEnvelope className="absolute top-[3.5rem] left-[14px] text-[#AAB8C2]" />
-            {emailerror ? <h3 className="pl-3 pt-3 ">{emailerror}</h3> : <></>}
+            {emailerror ? (
+              <h3 className="pl-3 capitalize flex justify-start items-center w-full py-3 font-bold text-[#e21212] ">
+                {emailerror}
+              </h3>
+            ) : (
+              <></>
+            )}
           </div>
           <div className="relative w-full">
             <input
@@ -94,7 +143,7 @@ const Register = () => {
             <FaLock className="absolute top-[3.5rem] left-[14px] text-[#AAB8C2]" />
           </div>
           <button
-            className="w-[80%] text-[white] font-bold transition duration-300 ease-in-out hover:bg-opacity-60 hover:text-[#657786] rounded-full bg-[#1DA1F2]  mt-10 h-[3rem] "
+            className="w-[80%] text-[white] font-bold transition duration-300 ease-in-out hover:bg-opacity-90  rounded-full bg-[#1DA1F2]  mt-10 h-[3rem] "
             type="submit"
           >
             Register

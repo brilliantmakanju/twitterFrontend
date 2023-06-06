@@ -4,14 +4,14 @@ const { hostname } = require("os");
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ["pbs.twimg.com"],
-    // remotePatterns: [
-    //   {
-    //     protocol: "https",
-    //     hostname: "pbs.twimg.com",
-    //     pathname: "profile_banners",
-    //   },
-    // ],
+    domains: ["127.0.0.1"],
+    remotePatterns: [
+      // {
+      //   protocol: "http",
+      //   hostname: "**",
+      //   // pathname: "media/profile",
+      // },
+    ],
   },
 };
 

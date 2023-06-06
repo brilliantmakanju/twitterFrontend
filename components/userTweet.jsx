@@ -15,73 +15,18 @@ import { useEffect } from "react";
 import ReactTimeAgo from "react-time-ago";
 import { useRouter } from "next/navigation";
 import { MoonLoader } from "react-spinners";
-import { useSession } from "next-auth/react";
 
 import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en.json";
+import { useSession } from "next-auth/react";
 TimeAgo.addDefaultLocale(en);
 
-const Tweets = () => {
+const UserTweets = ({ param }) => {
   const router = useRouter();
-  const [liked, setLiked] = useState();
-  const { data: session } = useSession();
   const [tweets, setTweet] = useState([]);
   const [isloading, setIsLoading] = useState(true);
+  const { data: session } = useSession();
 
-  function viewTweet(value) {
-    router.push(`tweet/${value}`);
-  }
-
-  // const timeAgo = (date) => {
-  //   const second = Math.floor((new Date() - date) / 1000);
-  //   // console.log(date)
-  //   let interval = Math.floor(second / 31536000);
-  //   if (interval > 1) {
-  //     return interval + " y";
-  //   }
-
-  //   interval = Math.floor(second / 2592000);
-  //   if (interval > 1) {
-  //     return interval + "M";
-  //   }
-
-  //   interval = Math.floor(second / 86400);
-  //   if (interval > 1) {
-  //     return interval + "d";
-  //   }
-
-  //   interval = Math.floor(second / 3600);
-  //   if (interval > 1) {
-  //     return interval + "h";
-  //   }
-
-  //   interval = Math.floor(second / 60);
-  //   if (interval > 1) {
-  //     return interval + "m";
-  //   }
-
-  //   if (second < 5) return "just now";
-
-  //   return Math.floor(second) + "seconds ago";
-  // };
-
-  useEffect(() => {
-    async function getTweet() {
-      const res = await fetch("https://twitterapi-production-91d6.up.railway.app/auth/tweets", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      const data = await res.json();
-      setTweet(data.tweets);
-      setIsLoading(false);
-    }
-
-    getTweet();
-  }, []);
-
- 
   async function LikeTweet(tweetId) {
     if (!session) {
       router.push("auth/signin");
@@ -97,6 +42,29 @@ const Tweets = () => {
     }
   }
 
+  function viewTweet(value) {
+    router.push(`tweet/${value}`);
+  }
+
+  useEffect(() => {
+    async function getTweet() {
+      const res = await fetch(
+        `https://twitterapi-production-91d6.up.railway.app/auth/usertweets/${param}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const data = await res.json();
+      setTweet(data.tweets);
+      setIsLoading(false);
+    }
+
+    getTweet();
+  }, []);
+
   return (
     <>
       {isloading ? (
@@ -105,11 +73,11 @@ const Tweets = () => {
         </div>
       ) : (
         <div>
-          {tweets.map((value, key) => {
+          {tweets?.map((value, key) => {
             return (
               <div
                 key={key}
-                className={`flex gap-2 justify-start items-start w-auto pr-auto border-b-2 border-[#E1E8ED] py-2 duration-300 transition ease-in-out hover:bg-[#e1e8edbd] hover:bg-opacity-25 ${
+                className={`flex gap-2 justify-start items-start w-auto pr-auto  border-b-2 border-[#E1E8ED] py-2 duration-300 transition ease-in-out hover:bg-[#e1e8edbd] hover:bg-opacity-25 ${
                   router === "/" ? "pl-7" : "px-5"
                 } `}
               >
@@ -127,7 +95,6 @@ const Tweets = () => {
                     />
                   </div>
                 </Link>
-                {/* {valu} */}
                 <div className="flex flex-col gap-1 ml-2 w-full lg:pr-5 ">
                   <div className="flex justify-between w-full gap-3 items-start pr-[35px] ">
                     <Link
@@ -150,40 +117,29 @@ const Tweets = () => {
                     {/* <FaEllipsisH color="#657786" size={14} /> */}
                   </div>
                   <p
-                    className="text-[15px] w-full h-auto break-words lg:pr-[50px] md:pr-[100px] tracking-tighter pr-[101px] mb-3 cursor-pointer "
+                    className="text-[15px] w-full tracking-tighter pr-[7px] mb-3 cursor-pointer "
                     onClick={() => viewTweet(value.pk)}
                   >
-                    {value.post}
+                    {value.post}{" "}
                     <span className="text-[#008cff]">{value.tag}</span>
                   </p>
-                  <div className="flex text-[#657786]  justify-start pl-5 items-center text-[12.5px] gap-6 h-10 ">
+                  <div className="flex text-[#657786]  justify-start items-center text-[12.5px] gap-6 h-10 ">
                     <div className="flex justify-start items-center gap-2">
-                      <FaRegComment size={20.5} />
+                      <FaRegComment className="text-[15px] lg:text-[20px]" />
                       <span>{value.comments?.length}</span>
                     </div>
                     {/* <div className="flex justify-start items-center gap-2">
-                      <FaRetweet size={20.5} />
+                      <FaRetweet className="text-[15px] lg:text-[20px]" />
                       <span>{value.retweet?.length}</span>
                     </div> */}
-                    {session?.user.tokenAccess ? (
-                      <div
-                        className={`flex justify-start items-center gap-2 cursor-pointer ${
-                          liked ? "text-[red]" : ""
-                        } `}
-                        onClick={() => LikeTweet(value.pk)}
-                      >
-                        <FaRegHeart size={20.5} className={``} />
-                        <span>{value.likes?.length}</span>
-                      </div>
-                    ) : (
-                      <div
-                        onClick={() => router.push("auth/signin")}
-                        className={`flex justify-start items-center gap-2 cursor-pointer  `}
-                      >
-                        <FaRegHeart size={20.5} className={``} />
-                        <span>{value.likes?.length}</span>
-                      </div>
-                    )}
+
+                    <div
+                      className="flex justify-start items-center gap-2 cursor-pointer "
+                      onClick={() => LikeTweet(value.pk)}
+                    >
+                      <FaRegHeart className="text-[15px] lg:text-[20px]" />
+                      <span>{value.likes?.length}</span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -195,4 +151,4 @@ const Tweets = () => {
   );
 };
 
-export default Tweets;
+export default UserTweets;
