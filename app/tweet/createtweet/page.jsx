@@ -1,46 +1,29 @@
 "use client";
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { toast } from "react-toastify";
 import { MoonLoader } from "react-spinners";
 import { useSession } from "next-auth/react";
-import { useParams, useRouter } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
+import { redirect, useRouter } from "next/navigation";
 import NavMobile from "../../../components/base/top/Nav";
 
 const TweetCreate = () => {
   const route = useRouter();
   const myElement = useRef(null);
-  const [leng, setLeng] = useState(0)
+  const [leng, setLeng] = useState(0);
   const [post, setPost] = useState("");
-  const [tags, setTags] = useState([]);
+  const [tags, setTags] = useState("");
   const { data: session } = useSession();
   const [position, setPosition] = useState(0);
   const [isloading, setIsLoading] = useState(true);
 
   const [fixed, setFixed] = useState(false);
 
-
-  if(!session?.user.tokenAccess){
-    route.push("/")
+  if (!session?.user.tokenAccess) {
+    route.push("/");
   }
 
   async function createTweet() {
-    let result = "";
-    let v = true;
-
-    setTags([]);
-    for (let i = 0; i < post.length; i++) {
-      if (post[i] == " ") {
-        v = true;
-      } else if (post[i] != " " && post[i] != "#" && v == true) {
-        v = false;
-      } else if (post[i] == "#" && v == true) {
-        let regex = new RegExp("[#a-z]");
-        const format = post.match(/\s([@#][\w_-]+)/g);
-        result += format;
-      }
-    }
-    setTags(result);
-
     const res = await fetch(`https://twitterapi-production-91d6.up.railway.app/auth/createtweet`, {
       method: "POST",
       headers: {
@@ -53,8 +36,16 @@ const TweetCreate = () => {
       }),
     });
     const data = await res.json();
-    if (data.status === "success") {
-      route.push("/");
+    if (data.statusCode === "success") {
+      toast.success("Tweet Created", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+      setPost("")
+      route.push("/")
+    } else {
+      toast.error("Tweet could'n be create, Try again ", {
+        position: toast.POSITION.TOP_CENTER,
+      });
     }
   }
 
@@ -91,7 +82,8 @@ const TweetCreate = () => {
           <div className="px-10 lg:px-4 py-5 w-full  flex justify-start items-start gap-4">
             <div className="relative h-[4em] w-[4em] overflow-hidden rounded-full">
               <Image
-                src="/tweet.webp"
+                src={`https://res.cloudinary.com/animecastle/image/upload/v1686129626/${session?.user.profiledata.image}`}
+                blurDataURL={`https://res.cloudinary.com/animecastle/image/upload/v1686129626/${session?.user.profiledata.image}`}
                 fill
                 className="absolute top-0 left-0 object-fill rounded-full  "
                 alt={"Profile Pic"}
@@ -101,7 +93,7 @@ const TweetCreate = () => {
               <textarea
                 onChange={(e) => {
                   setPost(e.target.value);
-                  setLeng(e.target.value.split(' ').length)
+                  setLeng(e.target.value.split(" ").length);
                 }}
                 value={post}
                 className="w-[100%] resize-none h-[240px] scroll-none  outline-none border-none border-[grey] pb-[3em] backdrop-blur-xl bg-transparent break-words px-3 placeholder:text-[#1DA1F2] text-[#1DA1F2] font-bold  flex items-start justify-start  "
@@ -110,8 +102,8 @@ const TweetCreate = () => {
               />
               <button
                 onClick={() => createTweet()}
-                className={`bg-[#1DA1F2] py-2 px-2 w-[40%] font-bold text-white rounded-full disabled:bg-opacity-60 disabled:cursor-not-allowed `  }
-                disabled={post === "" ? true : false }
+                className={`bg-[#1DA1F2] py-2 px-2 w-[40%] font-bold text-white rounded-full disabled:bg-opacity-60 disabled:cursor-not-allowed `}
+                disabled={post === "" ? true : false}
               >
                 Tweet
               </button>

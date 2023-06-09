@@ -4,7 +4,8 @@ import { useEffect, useState } from "react";
 import Provider from "./Provider";
 import FollowBar from "../components/FollowBar";
 import NavMobile from "../components/base/top/Nav";
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Sidebar from "../components/base/side/Sidebar";
 import CtaFooter from "../components/base/footer/Cta";
 import { FaTwitter } from "react-icons/fa";
@@ -44,6 +45,7 @@ export default function RootLayout({ children }) {
           </main>
         ) : (
           <Provider>
+            <ToastContainer />
             <div className="h-screen md:hidden ">
               <div className="container h-full mx-auto xl:px-30 max-w-6xl ">
                 <div className="grid grid-cols-3 w-1/2 h-full lg:w-full ">

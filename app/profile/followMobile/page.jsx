@@ -38,7 +38,7 @@ const FollowBar = () => {
   }, []);
 
   return (
-    <div className="px-6 py-4 hidden lg:block">
+    <div className="px-5 py-6 w-full lg:hidden block">
       {isloading ? (
         <div className="h-screen w-screen md:w-full flex justify-center items-center ">
           <MoonLoader size={40} color="#1DA1F2" />
@@ -48,11 +48,11 @@ const FollowBar = () => {
           {session?.user.data.username ? (
             <>
               {" "}
-              <div className="bg-neutral-800 rounded-xl p-4  ">
+              <div className="bg-neutral-800 w-full rounded-xl p-4  ">
                 <h2 className="text-white text-xl font-semibold">
                   Who to follow
                 </h2>
-                <div className="flex flex-col justify-start items-start gap-6 mt-4 ">
+                <div className="flex flex-col justify-start items-start gap-9 mt-4 ">
                   {/* TODO USER LIST */}
                   {users.map((user, key) => (
                     <div
@@ -62,7 +62,7 @@ const FollowBar = () => {
                     >
                       {/* <Avatar userId={user.id} /> */}
                       <div
-                        className={` border-2 border-black lg:h-12 h-5 lg:w-12 w-5
+                        className={` border-2 border-black h-12 w-12
                         } rounded-full hover:opacity-90 transition cursor-pointer relative `}
                       >
                         <Image

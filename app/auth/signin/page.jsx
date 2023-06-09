@@ -5,6 +5,7 @@ import { getServerSession } from "next-auth/next";
 import { useRouter } from "next/navigation";
 import { FaEnvelope, FaLock } from "react-icons/fa";
 import NavMobile from "../../../components/base/top/Nav";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const email = useRef("");
@@ -30,6 +31,9 @@ const Login = () => {
       setError(result.error);
       setErrorR(true)
     } else {
+      toast.success(`Logged in`, {
+        position: toast.POSITION.TOP_CENTER
+      })
       router.push("/");
     }
   };
@@ -43,7 +47,7 @@ const Login = () => {
         </h3>
         <form
           onSubmit={login}
-          className="flex w-full pr-3 md:pr-5 pl-3 flex-col justify-start items-center "
+          className="flex mt-5 w-full pr-3 md:pr-5 pl-3 flex-col justify-start items-center "
         >
           {error ? (
             <h3 className="pl-3 flex justify-start items-center w-full py-3 capitalize font-bold text-[#e21212] ">

@@ -4,7 +4,7 @@ import { NextSeo } from "next-seo";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import {
   FaChartPie,
@@ -13,6 +13,7 @@ import {
   FaRegHeart,
 } from "react-icons/fa";
 import { MoonLoader } from "react-spinners";
+import { toast } from "react-toastify";
 import NavMobile from "../components/base/top/Nav";
 import Tweets from "../components/Tweets";
 
@@ -22,8 +23,8 @@ export default function Home() {
   const myElement = useRef(null);
   const [leng, setLeng] = useState(0);
   const [post, setPost] = useState("");
-  const [tags, setTags] = useState([]);
-  const [dataU, setDataU] = useState();
+  const [tags, setTags] = useState("");
+  const [userInfo, setuserInfo] = useState();
   const [error, setErrors] = useState();
   const [position, setPosition] = useState(0);
   const [isloading, setIsLoading] = useState(true);
@@ -31,24 +32,9 @@ export default function Home() {
   const [fixed, setFixed] = useState(false);
 
   async function createTweet() {
-    let result = "";
-    let v = true;
+    
 
-    setTags([]);
-    for (let i = 0; i < post.length; i++) {
-      if (post[i] == " ") {
-        v = true;
-      } else if (post[i] != " " && post[i] != "#" && v == true) {
-        v = false;
-      } else if (post[i] == "#" && v == true) {
-        let regex = new RegExp("[#a-z]");
-        const format = post.match(/\s([@#][\w_-]+)/g);
-        result += format;
-      }
-    }
-    setTags(result);
-
-    const res = await fetch(`https://twitterapi-production-91d6.up.railway.app/auth/createtweet`, {
+    const res = await fetch(`http://127.0.0.1:8000/auth/createtweet`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -60,8 +46,17 @@ export default function Home() {
       }),
     });
     const data = await res.json();
-    setPost("")
-    route.push("/")
+    if (data.statusCode === "success") {
+      toast.success("Tweet Created", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+      setPost("")
+      window.location.reload(false)
+    } else {
+      toast.error("Tweet could'n be create, Try again ", {
+        position: toast.POSITION.TOP_CENTER,
+      });
+    }
   }
 
   const FixedChange = () => {
@@ -80,7 +75,7 @@ export default function Home() {
 
       try {
         const res = await fetch(
-          `https://twitterapi-production-91d6.up.railway.app/auth/profile/${sess?.user.data.username}`,
+          `http://127.0.0.1:8000/auth/profile/${sess?.user.data?.username}`,
           {
             method: "GET",
             headers: {
@@ -94,7 +89,7 @@ export default function Home() {
           setErrors(true);
         }
 
-        setDataU(data);
+        setuserInfo(data);
       } catch (error) {
         console.error("Error");
       }
@@ -108,7 +103,7 @@ export default function Home() {
   //   window.addEventListener("scroll", FixedChange);
   // }, []);
 
-  // console.log(dataU)
+  // console.log(userInfo)
 
   return (
     <>
@@ -129,17 +124,17 @@ export default function Home() {
             <title>Explore / Twitter</title>
           </Head>
           <NavMobile label={"Home"} fixed={fixed} />
-          {/* {dataU?.data} */}
           {session?.user.tokenAccess && (
             <div className="px-10 lg:px-4 py-5 w-full  flex justify-start items-start gap-1 border-b-2 border-[#E1E8ED] ">
               <div className="relative h-[4em] w-[4em] overflow-hidden rounded-full">
                 <Image
-                  src={dataU?.data.image}
+                  src={`${userInfo?.data?.image ? `https://res.cloudinary.com/animecastle/${userInfo.data?.image}` : "https://res.cloudinary.com/animecastle/image/upload/v1686129628/profileImage/wallpaperflare.com_wallpaper94_igzksf.jpg" }`}
                   fill
                   className="absolute top-0 left-0 object-cover bg-center rounded-full  "
                   alt={"Profile Pic"}
                 />
               </div>
+              
               <div className="flex flex-col justify-end items-end  gap-1 w-[78%] lg:w-[79%] pt-4  ">
                 <textarea
                   onChange={(e) => {

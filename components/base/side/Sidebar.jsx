@@ -209,7 +209,7 @@ const Sidebar = () => {
 
                 <div className="flex w-full gap-3 items-center justify-center">
                   <Link
-                    href={"/"}
+                    href={"profile/followMobile"}
                     className=" p-3  rounded-full hover:bg-opacity-25  hover:p-3 hover:bg-[#E1E8ED] duration-300 transition-colors ease-in-out"
                   >
                     <FaHashtag

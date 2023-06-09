@@ -119,8 +119,8 @@ const Tweets = () => {
                 >
                   <div className="relative h-[4em] w-[4em] overflow-hidden rounded-full">
                     <Image
-                      src={`https://twitterapi-production-91d6.up.railway.app/media/${value.userimage}`}
-                      blurDataURL={`https://twitterapi-production-91d6.up.railway.app/media/${value.userimage}`}
+                      src={`https://res.cloudinary.com/animecastle/image/upload/v1686129626/${value.userimage}`}
+                      // blurDataURL={`${value.userimage}`}
                       fill
                       className="absolute top-0 left-0 object-cover rounded-full  "
                       alt={"Profile Pic"}

@@ -3,10 +3,11 @@ import Link from "next/link";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import UserTweet from "../../../components/userTweet";
-import { useParams } from "next/navigation";
+import { redirect, useParams, useRouter } from "next/navigation";
 import { getSession, signIn, useSession } from "next-auth/react";
 import NavMobile from "../../../components/base/top/Nav";
 import { MoonLoader } from "react-spinners";
+import { toast } from "react-toastify";
 
 const Admin = () => {
   const { data: session, status } = useSession();
@@ -14,7 +15,8 @@ const Admin = () => {
   const [dataU, setDataU] = useState();
   const [follow, setFollow] = useState(false);
   const [folw, setFolw] = useState();
-  const [isloading, setIsLoading] = useState(true)
+  const route = useRouter()
+  const [isloading, setIsLoading] = useState(true);
   const [followcount, setFollowCount] = useState(0);
   const [followercount, setFollowerCount] = useState(0);
   const [errors, setErrors] = useState(false);
@@ -46,9 +48,15 @@ const Admin = () => {
     const data = await res.json();
     followCounts();
     if (data.followed === "true") {
-      setFollow(true);
-    } else {
+      toast.success("Unfollowed", {
+        position: toast.POSITION.TOP_CENTER
+      })
       setFollow(false);
+    } else {
+      setFollow(true);
+      toast.success("Followed", {
+        position: toast.POSITION.TOP_CENTER
+      })
     }
   }
 
@@ -95,12 +103,11 @@ const Admin = () => {
         }
         followCounts();
       }
-      
     };
 
     fetchedData();
     userInfo();
-    setIsLoading(false)
+    setIsLoading(false);
   }, []);
 
   const userInfo = async () => {
@@ -142,7 +149,12 @@ const Admin = () => {
           className={` "block h-screen overflow-hidden overflow-y-scroll w-full "
       `}
         >
-          <NavMobile arrow label={`${dataU?.data.userfname} ${dataU?.data.userlname} `} profile follower={followercount} />
+          <NavMobile
+            arrow
+            label={`${dataU?.data?.userfname} ${dataU?.data?.userlname} `}
+            profile
+            follower={followercount}
+          />
           {errors ? (
             <div className="flex flex-col justify-center items-center ">
               <Link
@@ -158,8 +170,13 @@ const Admin = () => {
               <div className="w-full  ">
                 <div className="relative sm:h-[180px] h-[170px] w-[100%] md:h-[200px] lg:h-[200px]">
                   <Image
-                    src={dataU?.data.bgimage}
-                    blurDataURL={dataU?.data.image}
+                    src={`${
+                      dataU?.data.bgimage
+                        ? `https://res.cloudinary.com/animecastle/${dataU.data.bgimage}`
+                        : "https://res.cloudinary.com/animecastle/image/upload/v1686270511/ykojbe9rwtkvwpudl9ot.jpg"
+                    }`}
+                    blurDataURL={`${dataU?.data.bgimage ? dataU.data.bgimage : "https://res.cloudinary.com/animecastle/image/upload/v1686270511/ykojbe9rwtkvwpudl9ot.jpg" }`}
+
                     fill
                     className="absolute  object-cover "
                     alt={uid}
@@ -167,8 +184,12 @@ const Admin = () => {
                 </div>
                 <div className="relative h-[6em] w-[6em] overflow-hidden rounded-full p-1 sm:mt-[-7%] mt-[-10.5%]  border-2 border-[#c9c5c5c0] ml-[20px]  lg:mb-[10px] lg:mt-[-12.5%] md:mt-[-7.5%] lg:ml-[25px] lg:h-[7em] lg:w-[7em] ">
                   <Image
-                    src={dataU?.data.image}
-                    blurDataURL={dataU?.data.image}
+                    src={`${
+                      dataU?.data.image
+                        ? `https://res.cloudinary.com/animecastle/${dataU.data.image}`
+                        : "https://res.cloudinary.com/animecastle/image/upload/v1686270511/ykojbe9rwtkvwpudl9ot.jpg"
+                    }`}
+                    blurDataURL={`${dataU?.data.image ? dataU.data.image : "https://res.cloudinary.com/animecastle/image/upload/v1686270511/ykojbe9rwtkvwpudl9ot.jpg" }`}
                     fill
                     className="absolute top-0 left-0 object-cover rounded-full  "
                     alt={"Profile Pic"}
@@ -177,7 +198,7 @@ const Admin = () => {
               </div>
               {session?.user.data.username === uid ? (
                 <div className="flex justify-end pr-[15px] items-center gap-3 w-full ">
-                  <button className=" sm:mt-[-4%] sm:ml-[78.5%] max-sm:mt-[-4.3%] mt-[-5%] ml-auto lg:ml-[80%] px-5 right-7 py-[0.4rem] font-bold rounded-full md:ml-[82.5%] md:mt-[-4.5%] lg:mt-[-7%] flex justify-end items-end bg-[#000000e5]  text-white">
+                  <button onClick={() => route.push("profile/edit")} className=" sm:mt-[-4%] sm:ml-[78.5%] max-sm:mt-[-4.3%] mt-[-5%] ml-auto lg:ml-[80%] px-5 right-7 py-[0.4rem] font-bold rounded-full md:ml-[82.5%] md:mt-[-4.5%] lg:mt-[-7%] flex justify-end items-end bg-[#000000e5]  text-white">
                     Edit
                   </button>
                 </div>
@@ -216,9 +237,11 @@ const Admin = () => {
 
               <div className="h-auto  w-full  pl-7 flex flex-col mt-5 lg:mt-1 lg:pl-10 justify-start items-start gap-1 ">
                 <h3 className="capitalize font-bold text-[20px] tracking-tighter ">
-                  {dataU?.data.userfname}{" "}{dataU?.data.userlname}
+                  {dataU?.data?.userfname} {dataU?.data?.userlname}
                 </h3>
-                <span className="text-[gray] mt-[-10px] ">@{dataU?.data.user}</span>
+                <span className="text-[gray] mt-[-10px] ">
+                  @{dataU?.data.user}
+                </span>
                 <div className="flex flex-col gap-1 mt-3 w-full tracking-wide text-[15.5px] leading-[1.2rem]  break-word font-serif font-light ">
                   {dataU?.data.bio}
                   <div className="flex justify-start items-center gap-5 mt-3 ">

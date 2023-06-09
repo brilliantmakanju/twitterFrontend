@@ -5,6 +5,7 @@ import { signIn, useSession } from "next-auth/react";
 import React, { useEffect, useRef, useState } from "react";
 import { FaEnvelope, FaLock, FaUser } from "react-icons/fa";
 import NavMobile from "../../../components/base/top/Nav";
+import { toast } from "react-toastify";
 
 const Register = () => {
   const email = useRef("");
@@ -39,12 +40,21 @@ const Register = () => {
     });
     let data = await res.json();
     if (res.status === 201) {
+      toast.success("Account Created, Login now", {
+        position: toast.POSITION.TOP_CENTER
+      })
       router.push("auth/signin");
     } else {
       if (data?.username) {
+        toast.error(`${data?.username}`, {
+          position: toast.POSITION.TOP_CENTER
+        })
         setError(data?.username);
       }
       if (data?.email) {
+        toast.error(`${data?.email}`, {
+          position: toast.POSITION.TOP_CENTER
+        })
         setEmailError(data?.email);
       }
     }
@@ -71,13 +81,6 @@ const Register = () => {
               required
             />
             <FaUser className="absolute top-[3.5rem] left-[14px] text-[#AAB8C2]" />
-            {error ? (
-              <h3 className="pl-3 flex capitalize justify-start items-center w-full py-3 font-bold text-[#e21212] ">
-                {error}
-              </h3>
-            ) : (
-              <></>
-            )}
           </div>
           <div className="relative w-full">
             <input
@@ -88,13 +91,6 @@ const Register = () => {
               required
             />
             <FaUser className="absolute top-[3.5rem] left-[14px] text-[#AAB8C2]" />
-            {error ? (
-              <h3 className="pl-3 flex capitalize justify-start items-center w-full py-3 font-bold text-[#e21212] ">
-                {error}
-              </h3>
-            ) : (
-              <></>
-            )}
           </div>
           <div className="relative w-full">
             <input

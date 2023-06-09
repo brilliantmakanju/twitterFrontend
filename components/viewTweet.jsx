@@ -17,6 +17,7 @@ import { MoonLoader } from "react-spinners";
 import { useSession } from "next-auth/react";
 import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en.json";
+import { toast } from "react-toastify";
 TimeAgo.addLocale(en);
 
 const ViewTweet = ({ tweetId }) => {
@@ -40,6 +41,15 @@ const ViewTweet = ({ tweetId }) => {
         },
       });
       const data = await res.json();
+      if (data.like === "liked") {
+        toast.success("Liked Tweet ", {
+          position: toast.POSITION.TOP_CENTER,
+        });
+      } else {
+        toast.success("Unliked Tweet ", {
+          position: toast.POSITION.TOP_CENTER,
+        });
+      }
     }
   }
 
@@ -94,6 +104,9 @@ const ViewTweet = ({ tweetId }) => {
     );
     const data = await res.json();
     if (data.status === "success") {
+      toast.success("Comment added ", {
+        position: toast.POSITION.TOP_CENTER,
+      });
       const res = await fetch(
         `https://twitterapi-production-91d6.up.railway.app/auth/comment/createview/${tweetId}`,
         {
@@ -106,6 +119,10 @@ const ViewTweet = ({ tweetId }) => {
       const datas = await res.json();
       setCommentss("");
       setComments(datas.comments);
+    } else {
+      toast.error("Comment could not be added  ", {
+        position: toast.POSITION.TOP_CENTER,
+      });
     }
   }
 
@@ -122,7 +139,14 @@ const ViewTweet = ({ tweetId }) => {
     );
     const data = await res.json();
     if (data.status === "success") {
+      toast.success("Tweet Deleted", {
+        position: toast.POSITION.TOP_CENTER,
+      });
       route.push("/");
+    } else {
+      toast.error("Tweet could not be deleted", {
+        position: toast.POSITION.TOP_CENTER,
+      });
     }
   }
 
@@ -143,8 +167,16 @@ const ViewTweet = ({ tweetId }) => {
             <Link href={`profile/${tweet.user}`} className=" cursor-pointer">
               <div className="relative h-[4em] w-[4em] overflow-hidden rounded-full">
                 <Image
-                  src={`https://twitterapi-production-91d6.up.railway.app/media/${tweet.userimage}`}
-                  blurDataURL={`https://twitterapi-production-91d6.up.railway.app/media/${tweet.userimage}`}
+                  src={`${
+                    tweet?.userimage
+                      ? `https://res.cloudinary.com/animecastle/image/upload/v1686129628/${tweet.userimage}`
+                      : "https://res.cloudinary.com/animecastle/image/upload/v1686270511/ykojbe9rwtkvwpudl9ot.jpg"
+                  }`}
+                  blurDataURL={`${
+                    tweet?.userimage
+                      ? `https://res.cloudinary.com/animecastle/image/upload/v1686129628/${tweet.userimage}`
+                      : "https://res.cloudinary.com/animecastle/image/upload/v1686270511/ykojbe9rwtkvwpudl9ot.jpg"
+                  }`}
                   fill
                   className="absolute top-0 left-0 object-cover bg-center rounded-full  "
                   alt={"Profile Pic"}
@@ -158,14 +190,18 @@ const ViewTweet = ({ tweetId }) => {
                   className="cursor-pointer  "
                 >
                   <h3 className="font-[500] w-[250px] break-words flex justify-start items-center ">
-                    {tweet.userfname} {" "} {tweet.userlname} 
+                    {tweet.userfname} {tweet.userlname}
                     <span className=" text-[#657786] font-[300] ml-[7px] flex justify-start items-center gap-2 ">
                       @{tweet.user} <FaCircle size={5} />
-                      <ReactTimeAgo
-                        date={tweet.create}
-                        locale="en-US"
-                        timeStyle={"twitter"}
-                      />
+                      {tweet.create ? (
+                        <ReactTimeAgo
+                          date={tweet.create}
+                          locale="en-US"
+                          timeStyle={"twitter"}
+                        />
+                      ) : (
+                        <></>
+                      )}
                     </span>
                   </h3>
                 </Link>
@@ -184,7 +220,10 @@ const ViewTweet = ({ tweetId }) => {
                   <FaRetweet className="duration-300 text-[15px] lg:text-[20px] transition ease-in-out hover:text-[#1DA1F2]" />
                   <span>{tweet.views}</span>
                 </div> */}
-                <div className="flex justify-start items-center gap-2 cursor-pointer" onClick={() => LikeTweet(tweet.pk)} >
+                <div
+                  className="flex justify-start items-center gap-2 cursor-pointer"
+                  onClick={() => LikeTweet(tweet.pk)}
+                >
                   <FaRegHeart className="duration-300 text-[15px] lg:text-[20px] transition ease-in-out hover:text-[red]" />
                   <span>{tweet?.likes?.length}</span>
                 </div>
@@ -207,8 +246,16 @@ const ViewTweet = ({ tweetId }) => {
             <div className="px-4 py-5 w-full flex justify-start items-start gap-4">
               <div className="relative h-[4em] w-[4em] overflow-hidden rounded-full">
                 <Image
-                  src={`https://twitterapi-production-91d6.up.railway.app${session?.user.profiledata.image}`}
-                  blurDataURL={`https://twitterapi-production-91d6.up.railway.app${session?.user.profiledata.image}`}
+                  src={`${
+                    session?.user.profiledata.image
+                      ? `https://res.cloudinary.com/animecastle/${session?.user.profiledata.image}`
+                      : "https://res.cloudinary.com/animecastle/image/upload/v1686270511/ykojbe9rwtkvwpudl9ot.jpg"
+                  }`}
+                  blurDataURL={`${
+                    session?.user.profiledata.image
+                      ? `https://res.cloudinary.com/animecastle/${session?.user.profiledata.image}`
+                      : "https://res.cloudinary.com/animecastle/image/upload/v1686270511/ykojbe9rwtkvwpudl9ot.jpg"
+                  }`}
                   fill
                   className="absolute top-0 left-0 object-cover bg-center rounded-full  "
                   alt={"Profile Pic"}
@@ -243,11 +290,18 @@ const ViewTweet = ({ tweetId }) => {
                   href={`profile/${comment.user}`}
                   className=" cursor-pointer"
                 >
-                  
                   <div className="relative h-[4em] w-[4em] overflow-hidden rounded-full">
                     <Image
-                      src={`https://twitterapi-production-91d6.up.railway.app/media/${comment.userimage}`}
-                      blurDataURL={`https://twitterapi-production-91d6.up.railway.app/media/${comment.userimage}`}
+                      src={`${
+                        comment.userimage
+                          ? `https://res.cloudinary.com/animecastle/image/upload/v1686129628/profileImage/${comment.userimage}`
+                          : "https://res.cloudinary.com/animecastle/image/upload/v1686270511/ykojbe9rwtkvwpudl9ot.jpg"
+                      } `}
+                      blurDataURL={`${
+                        comment.userimage
+                          ? `https://res.cloudinary.com/animecastle/image/upload/v1686129628/profileImage/${comment.userimage}`
+                          : "https://res.cloudinary.com/animecastle/image/upload/v1686270511/ykojbe9rwtkvwpudl9ot.jpg"
+                      } `}
                       fill
                       className="absolute top-0 left-0 object-fill rounded-full  "
                       alt={"Profile Pic"}
@@ -261,14 +315,14 @@ const ViewTweet = ({ tweetId }) => {
                       className="cursor-pointer  "
                     >
                       <h3 className="font-[500] w-[250px] break-words flex justify-start items-center ">
-                        {comment.userfname}{" "}{comment.userlname}
+                        {comment.userfname} {comment.userlname}
                         <span className=" text-[#657786] font-[300] ml-[7px] flex justify-start items-center gap-2 ">
                           @{comment.user} <FaCircle size={5} />{" "}
                           <ReactTimeAgo
-                          date={tweet.create}
-                          locale="en-US"
-                          timeStyle={"twitter"}
-                        />
+                            date={tweet.create}
+                            locale="en-US"
+                            timeStyle={"twitter"}
+                          />
                         </span>
                       </h3>
                     </Link>

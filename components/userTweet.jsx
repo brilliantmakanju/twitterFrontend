@@ -87,8 +87,16 @@ const UserTweets = ({ param }) => {
                 >
                   <div className="relative h-[4em] w-[4em] overflow-hidden rounded-full">
                     <Image
-                      src={`https://twitterapi-production-91d6.up.railway.app/media/${value.userimage}`}
-                      blurDataURL={`https://twitterapi-production-91d6.up.railway.app/media/${value.userimage}`}
+                      src={`${
+                        value?.userimage
+                          ? `https://res.cloudinary.com/animecastle/${value.userimage}`
+                          : "https://res.cloudinary.com/animecastle/image/upload/v1686270511/ykojbe9rwtkvwpudl9ot.jpg"
+                      }`}
+                      blurDataURL={`${
+                        value?.userimage
+                          ? `https://res.cloudinary.com/animecastle/${value.userimage}`
+                          : "https://res.cloudinary.com/animecastle/image/upload/v1686270511/ykojbe9rwtkvwpudl9ot.jpg"
+                      }`}
                       fill
                       className="absolute top-0 left-0 object-cover rounded-full  "
                       alt={"Profile Pic"}
@@ -102,7 +110,7 @@ const UserTweets = ({ param }) => {
                       className="cursor-pointer  "
                     >
                       <h3 className="font-[500] w-[250px] break-words flex justify-start items-center ">
-                        {value.userfname}{" "}{value.userlname}
+                        {value.userfname} {value.userlname}
                         <span className=" text-[#657786] font-[300] ml-[7px] flex justify-start items-center gap-2 ">
                           @{value.user} <FaCircle size={5} />{" "}
                           <ReactTimeAgo
