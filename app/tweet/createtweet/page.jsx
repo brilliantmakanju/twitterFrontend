@@ -82,8 +82,8 @@ const TweetCreate = () => {
           <div className="px-10 lg:px-4 py-5 w-full  flex justify-start items-start gap-4">
             <div className="relative h-[4em] w-[4em] overflow-hidden rounded-full">
               <Image
-                src={`https://res.cloudinary.com/animecastle/image/upload/v1686129626/${session?.user.profiledata.image}`}
-                blurDataURL={`https://res.cloudinary.com/animecastle/image/upload/v1686129626/${session?.user.profiledata.image}`}
+                src={`https://res.cloudinary.com/animecastle/${session?.user.profiledata.image}`}
+                blurDataURL={`https://res.cloudinary.com/animecastle/${session?.user.profiledata.image}`}
                 fill
                 className="absolute top-0 left-0 object-fill rounded-full  "
                 alt={"Profile Pic"}
