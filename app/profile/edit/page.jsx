@@ -10,11 +10,11 @@ const EditProfile = () => {
   const { data: session } = useSession([]);
   const [disabled, setDisabled] = useState(false);
   const [bio, setBio] = useState(session?.user.profiledata.bio);
-  const [image, setImage] = useState(session?.user.profiledata.image);
+  const [image, setImage] = useState(`https://res.cloudinary.com/animecastle/${session?.user.profiledata.image}`);
   const [fname, setFname] = useState(session?.user.profiledata.userfname);
   const [lname, setLname] = useState(session?.user.profiledata.userlname);
   const [username, setUsername] = useState(session?.user.profiledata.user);
-  const [bgimage, setBgImage] = useState(session?.user.profiledata.bgimage);
+  const [bgimage, setBgImage] = useState(`https://res.cloudinary.com/animecastle/${session?.user.profiledata.bgimage}`);
 
   if (!session) {
     redirect("/");
