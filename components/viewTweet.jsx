@@ -294,12 +294,12 @@ const ViewTweet = ({ tweetId }) => {
                     <Image
                       src={`${
                         comment.userimage
-                          ? `https://res.cloudinary.com/animecastle/image/upload/v1686129628/profileImage/${comment.userimage}`
+                          ? `https://res.cloudinary.com/animecastle/${comment.userimage}`
                           : "https://res.cloudinary.com/animecastle/image/upload/v1686270511/ykojbe9rwtkvwpudl9ot.jpg"
                       } `}
                       blurDataURL={`${
                         comment.userimage
-                          ? `https://res.cloudinary.com/animecastle/image/upload/v1686129628/profileImage/${comment.userimage}`
+                          ? `https://res.cloudinary.com/animecastle/${comment.userimage}`
                           : "https://res.cloudinary.com/animecastle/image/upload/v1686270511/ykojbe9rwtkvwpudl9ot.jpg"
                       } `}
                       fill
