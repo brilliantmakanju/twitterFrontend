@@ -10,11 +10,15 @@ const EditProfile = () => {
   const { data: session } = useSession([]);
   const [disabled, setDisabled] = useState(false);
   const [bio, setBio] = useState(session?.user.profiledata.bio);
-  const [image, setImage] = useState(`https://res.cloudinary.com/animecastle/${session?.user.profiledata.image}`);
+  const [image, setImage] = useState(
+    `https://res.cloudinary.com/animecastle/${session?.user.profiledata.image}`
+  );
   const [fname, setFname] = useState(session?.user.profiledata.userfname);
   const [lname, setLname] = useState(session?.user.profiledata.userlname);
   const [username, setUsername] = useState(session?.user.profiledata.user);
-  const [bgimage, setBgImage] = useState(`https://res.cloudinary.com/animecastle/${session?.user.profiledata.bgimage}`);
+  const [bgimage, setBgImage] = useState(
+    `https://res.cloudinary.com/animecastle/${session?.user.profiledata.bgimage}`
+  );
 
   if (!session) {
     redirect("/");
@@ -177,7 +181,7 @@ const EditProfile = () => {
             placeholder="Bio"
             maxLength={280}
           />
-          <ImageUpload
+          {/* <ImageUpload
             value={image}
             // type={"file"}
             disabled={disabled}
@@ -190,8 +194,24 @@ const EditProfile = () => {
             disabled={disabled}
             onChange={(bgimage) => setBgImage(bgimage)}
             label="Upload cover image"
-          />
-          {/* {image}
+          /> */}
+          {/* {image} */}
+          {image ? (
+            <>
+              <div className="flex items-center justify-center">
+                <Image
+                  src={image}
+                  height="100"
+                  width="100"
+                  alt="Uploaded image"
+                />
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="flex items-center justify-center"></div>
+            </>
+          )}
           <input
             type={"file"}
             accept="image/*"
@@ -199,13 +219,29 @@ const EditProfile = () => {
             onChange={(e) => imageUploads(e)}
             className="w-full p-4  text-center border-2 border-dotted rounded-md border-neutral-700"
           />
+          {bgimage ? (
+            <>
+              <div className="flex items-center justify-center">
+                <Image
+                  src={bgimage}
+                  height="100"
+                  width="100"
+                  alt="Uploaded image"
+                />
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="flex items-center justify-center"></div>
+            </>
+          )}
           <input
             type={"file"}
             accept="image/*"
             disabled={disabled}
             onChange={(e) => imageBgUploads(e)}
             className="w-full p-4 text-center border-2 border-dotted rounded-md border-neutral-700"
-          /> */}
+          />
           <button
             disabled={disabled}
             className="w-[100%] flex justify-center items-center text-[white] font-bold transition duration-300 ease-in-out hover:bg-opacity-90  rounded-full bg-[#1DA1F2]  mt-3 h-[3rem] "
