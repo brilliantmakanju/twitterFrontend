@@ -332,7 +332,7 @@ const ViewTweet = ({ tweetId }) => {
                   <p className="text-[15px] w-full tracking-tighter pr-[7px] mb-3 cursor-pointer ">
                     {comment.comment}{" "}
                   </p>
-                  <div className="flex text-[#657786]  justify-start pl-5 items-center text-[12.5px] gap-6 h-10 ">
+                  {/* <div className="flex text-[#657786]  justify-start pl-5 items-center text-[12.5px] gap-6 h-10 ">
                     <div className="flex justify-start items-center gap-2">
                       <FaRegHeart size={20.5} />
                       <span>{comment?.likes?.length} Likes</span>
@@ -346,7 +346,7 @@ const ViewTweet = ({ tweetId }) => {
                     ) : (
                       <></>
                     )}
-                  </div>
+                  </div> */}
                 </div>
               </div>
             ))}
