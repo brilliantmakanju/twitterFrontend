@@ -177,14 +177,21 @@ const EditProfile = () => {
             placeholder="Bio"
             maxLength={280}
           />
-          {/* <ImageUpload
+          <ImageUpload
             value={image}
             // type={"file"}
-            // disabled={disabled}
+            disabled={disabled}
             onChange={(image) => setImage(image)}
             label="Upload profile image"
-          /> */}
-          {/* {image} */}
+          />
+          <ImageUpload
+            value={bgimage}
+            // type={"file"}
+            disabled={disabled}
+            onChange={(bgimage) => setBgImage(bgimage)}
+            label="Upload cover image"
+          />
+          {/* {image}
           <input
             type={"file"}
             accept="image/*"
@@ -198,7 +205,7 @@ const EditProfile = () => {
             disabled={disabled}
             onChange={(e) => imageBgUploads(e)}
             className="w-full p-4 text-center border-2 border-dotted rounded-md border-neutral-700"
-          />
+          /> */}
           <button
             disabled={disabled}
             className="w-[100%] flex justify-center items-center text-[white] font-bold transition duration-300 ease-in-out hover:bg-opacity-90  rounded-full bg-[#1DA1F2]  mt-3 h-[3rem] "
