@@ -1,6 +1,7 @@
 "use client";
 
 import { signOut, useSession } from "next-auth/react";
+import Image from "next/image";
 import { redirect } from "next/navigation";
 import { useState } from "react";
 import { toast } from "react-toastify";
