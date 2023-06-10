@@ -34,7 +34,7 @@ export default function Home() {
   async function createTweet() {
     
 
-    const res = await fetch(`http://127.0.0.1:8000/auth/createtweet`, {
+    const res = await fetch(`https://twitterapi-production-91d6.up.railway.app/auth/createtweet`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -75,7 +75,7 @@ export default function Home() {
 
       try {
         const res = await fetch(
-          `http://127.0.0.1:8000/auth/profile/${sess?.user.data?.username}`,
+          `https://twitterapi-production-91d6.up.railway.app/auth/profile/${sess?.user.data?.username}`,
           {
             method: "GET",
             headers: {
