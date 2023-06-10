@@ -85,7 +85,7 @@ const TweetCreate = () => {
                 src={`https://res.cloudinary.com/animecastle/${session?.user.profiledata.image}`}
                 blurDataURL={`https://res.cloudinary.com/animecastle/${session?.user.profiledata.image}`}
                 fill
-                className="absolute top-0 left-0 object-fill rounded-full  "
+                className="absolute top-0 left-0 object-cover rounded-full  "
                 alt={"Profile Pic"}
               />
             </div>
