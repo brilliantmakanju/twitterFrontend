@@ -99,7 +99,7 @@ const EditProfile = () => {
         <form
           onSubmit={(e) => updateProfile(e)}
           // encType={"multipart/form-data"}
-          className="flex flex-col gap-5 w-full"
+          className="flex flex-col gap-5 w-full mb-[200px] "
         >
           <input
             // placeholder={placeholder}
